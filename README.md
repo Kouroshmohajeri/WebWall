@@ -17,9 +17,7 @@
 - Open Redirects  
 - Directory Traversal  
 - Exposed/Dotfile Access  
-- File Upload Abuse  
-
-> ❌ Excludes: CSRF, session fixation, OTP abuse, unpatched packages, open port scanning.
+- File Upload Abuse   
 
 ---
 

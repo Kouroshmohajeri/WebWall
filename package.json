@@ -1,0 +1,45 @@
+{
+  "name": "webwall",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["express", "firewall", "middleware", "security", "xss", "ddos", "rate-limit", "nosql-injection"],
+  "author": "Kourosh",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/webwall.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YOUR_USERNAME/webwall/issues"
+  },
+  "homepage": "https://github.com/YOUR_USERNAME/webwall#readme",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "firewall",
+    "middleware",
+    "utils",
+    "README.md"
+  ],
+  "license": "MIT",
+  "description": "A powerful Express middleware firewall to protect your web apps against various attacks.",
+  "dependencies": {
+    "csurf": "^1.10.0",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "he": "^1.2.0",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.2",
+    "sanitize-html": "^2.15.0",
+    "validator": "^13.15.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "nodemon": "^3.1.9"
+  }
+}
