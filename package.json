@@ -11,12 +11,12 @@
   "author": "Kourosh",
   "repository": {
     "type": "git",
-    "url": "https://github.com/YOUR_USERNAME/webwall.git"
+    "url": "https://github.com/Kouroshmohajeri/webwall.git"
   },
   "bugs": {
-    "url": "https://github.com/YOUR_USERNAME/webwall/issues"
+    "url": "https://github.com/Kouroshmohajeri/webwall/issues"
   },
-  "homepage": "https://github.com/YOUR_USERNAME/webwall#readme",
+  "homepage": "https://github.com/Kouroshmohajeri/webwall#readme",
   "files": [
     "index.js",
     "index.d.ts",
