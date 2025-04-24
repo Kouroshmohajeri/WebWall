@@ -13,8 +13,6 @@ import ddosProtection from "./middleware/ddos.js";
 import directoryTraversalProtection from "./middleware/directoryTraversal.js";
 import exposedFileProtection from "./middleware/exposedFiles.js";
 import openPortProtection from "./middleware/openPort.js";
-// import { csrfMiddleware } from "./middleware/csrf.js";
-// import { verifyCsrf } from "./middleware/verifyCsrf.js";
 
 export default function webwall(options = {}) {
   const middlewares = [];
@@ -76,11 +74,6 @@ export default function webwall(options = {}) {
     jwtOptions.secret = options.jwtSecret;
     middlewares.push(jwtValidation(jwtOptions));
   }
-  // CSRF Protection
-  // if (options.csrfProtection !== false) {
-  //   middlewares.push(csrfMiddleware); // Generate token
-  //   middlewares.push(verifyCsrf); // Verify token on sensitive requests
-  // }
 
   // Open Redirect Protection
   if (options.openRedirect !== false) {

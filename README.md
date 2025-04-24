@@ -26,4 +26,4 @@
 ### 1. Install
 
 ```bash
-npm i web-wall
+npm i @webgallery/webwall

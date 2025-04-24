@@ -1,5 +1,5 @@
 {
-  "name": "web-wall",
+  "name": "@webgallery/webwall",
   "version": "1.0.1",
   "main": "index.js",
   "type": "module",
@@ -7,7 +7,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["express", "firewall", "middleware", "security", "xss", "ddos", "rate-limit", "nosql-injection"],
+  "keywords": [
+    "express",
+    "firewall",
+    "middleware",
+    "security",
+    "xss",
+    "ddos",
+    "rate-limit",
+    "nosql-injection"
+  ],
   "author": "Kourosh",
   "repository": {
     "type": "git",
@@ -28,7 +37,6 @@
   "license": "MIT",
   "description": "A powerful Express middleware firewall to protect your web apps against various attacks.",
   "dependencies": {
-    "csurf": "^1.10.0",
     "express": "^5.1.0",
     "express-rate-limit": "^7.5.0",
     "he": "^1.2.0",
