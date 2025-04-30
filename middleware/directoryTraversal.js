@@ -5,10 +5,12 @@ import { isBanned, trackIp } from "../firewall/ipTracker.js";
 import { logSuspiciousActivity } from "../utils/logger.js";
 
 const { decode } = he;
+
 function deepDecode(value) {
   try {
     let decoded = value;
-    for (let i = 0; i < 5; i++) {
+    // Limit decoding to avoid unnecessary processing
+    for (let i = 0; i < 3; i++) {
       const newDecoded = decode(decodeURIComponent(decoded));
       if (newDecoded === decoded) break;
       decoded = newDecoded;
@@ -30,28 +32,32 @@ export default function directoryTraversalProtection(options = {}) {
         .json({ error: "Your IP has been temporarily banned." });
     }
 
-    const input = req.body?.filePath || req.query?.filePath || req.path;
-    if (input) {
-      const decoded = deepDecode(input);
-      const normalized = path.normalize(decoded);
-      const resolvedPath = path.resolve(baseDir, normalized);
+    // Only check the filePath or query.filePath
+    const input = req.body?.filePath || req.query?.filePath;
+    if (!input || input === req.path) {
+      return next(); // Skip if there's no filePath or if it's the same as the request path
+    }
 
-      if (!resolvedPath.startsWith(baseDir)) {
-        logSuspiciousActivity("Directory Traversal", ip, req.originalUrl, {
-          attemptedPath: resolvedPath,
-          originalInput: input,
+    const decoded = deepDecode(input);
+    const normalized = path.normalize(decoded);
+    const resolvedPath = path.resolve(baseDir, normalized);
+
+    // Only block if the resolved path escapes the baseDir
+    if (!resolvedPath.startsWith(baseDir)) {
+      logSuspiciousActivity("Directory Traversal", ip, req.originalUrl, {
+        attemptedPath: resolvedPath,
+        originalInput: input,
+      });
+      const banned = trackIp(ip);
+      if (banned) {
+        return res.status(403).json({
+          error:
+            "Your IP has been temporarily banned due to repeated suspicious activity.",
         });
-        const banned = trackIp(ip);
-        if (banned) {
-          return res.status(403).json({
-            error:
-              "Your IP has been temporarily banned due to repeated suspicious activity.",
-          });
-        }
-        return res
-          .status(400)
-          .json({ error: "Directory traversal attempt detected." });
       }
+      return res
+        .status(400)
+        .json({ error: "Directory traversal attempt detected." });
     }
 
     next();
