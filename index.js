@@ -23,6 +23,14 @@ export default function webwall(options = {}) {
   if (options.ban !== false) {
     middlewares.unshift(banMiddleware());
   }
+  // DDos Protection
+  if (options.ddos !== false) {
+    middlewares.unshift(ddosProtection(options.ddos));
+  }
+  //Limiting User Requests
+  if (options.rateLimit !== false) {
+    middlewares.push(rateLimiter(options.rateLimit));
+  }
   // Brute Force Protection (Add this block)
   if (options.bruteForce !== false) {
     middlewares.push(bruteForceProtection());
@@ -31,6 +39,19 @@ export default function webwall(options = {}) {
   if (options.credentialStuffing !== false) {
     middlewares.push(credentialStuffingProtection());
   }
+  // XSS Protection
+  if (options.xss !== false) {
+    const xssOptions = typeof options.xss === "object" ? options.xss : {};
+    middlewares.push(xss(xssOptions));
+  }
+  // NoSQL Injection Protection
+  if (options.nosqlInjection !== false) {
+    middlewares.push(nosqlInjection());
+  }
+  // Command Injection Protection
+  if (options.commandInjection !== false) {
+    middlewares.push(commandInjection());
+  }
   // Inside the webwall function
   if (options.directoryTraversal !== false) {
     const traversalOptions =
@@ -38,11 +59,6 @@ export default function webwall(options = {}) {
         ? options.directoryTraversal
         : {};
     middlewares.push(directoryTraversalProtection(traversalOptions));
-  }
-  // XSS Protection
-  if (options.xss !== false) {
-    const xssOptions = typeof options.xss === "object" ? options.xss : {};
-    middlewares.push(xss(xssOptions));
   }
   // inside the webwall(options = {}) function
   if (options.exposedFiles !== false) {
@@ -53,35 +69,18 @@ export default function webwall(options = {}) {
       typeof options.openPort === "object" ? options.openPort : {};
     middlewares.unshift(openPortProtection(portOptions));
   }
+  // Open Redirect Protection
+  if (options.openRedirect !== false) {
+    middlewares.push(openRedirectProtection());
+  }
   // if (options.otpAbuse !== false) {
   //   middlewares.push(otpAbuseProtection());
   // }
-  if (options.ddos !== false) {
-    middlewares.unshift(ddosProtection(options.ddos));
-  }
-  // NoSQL Injection Protection
-  if (options.nosqlInjection !== false) {
-    middlewares.push(nosqlInjection());
-  }
-
-  //Limiting User Requests
-  if (options.rateLimit !== false) {
-    middlewares.push(rateLimiter(options.rateLimit));
-  }
 
   if (options.jwt !== false && options.jwtSecret) {
     const jwtOptions = typeof options.jwt === "object" ? options.jwt : {};
     jwtOptions.secret = options.jwtSecret;
     middlewares.push(jwtValidation(jwtOptions));
-  }
-
-  // Open Redirect Protection
-  if (options.openRedirect !== false) {
-    middlewares.push(openRedirectProtection());
-  }
-  // Command Injection Protection
-  if (options.commandInjection !== false) {
-    middlewares.push(commandInjection());
   }
 
   return middlewares;
