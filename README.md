@@ -32,9 +32,9 @@ npm i @webgallery/webwall
 ### 2. Implementation
 ```bash
 app.use(webwall());
-
+```
 or
-
+```bash
 app.use(
   webwall({
     xss: true,
